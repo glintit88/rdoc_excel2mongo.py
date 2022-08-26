@@ -21,3 +21,5 @@ while True:
     else:
         print('Empty')
         time.sleep(1)
+        
+# new line
