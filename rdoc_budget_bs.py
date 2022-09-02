@@ -35,6 +35,7 @@ class PoemPageHandler(tornado.web.RequestHandler):
         cnt = 0
         code = []
         noun2 = 'x'
+        suma=0
         print(noun1)
         if noun2 == 'x':
             for y in mycol.find({sele: {"$regex": noun1}}):
@@ -42,6 +43,9 @@ class PoemPageHandler(tornado.web.RequestHandler):
                 cnt = cnt + 1
 
                 # {"$regex": "CNS"}}):
+                a = "<tr><td>_id:</td><td> %s </td></tr> " % y['_id']
+                # code.append(%y['IP Address(Private)'])
+                code.append(a)
                 a = "<tr><td>Doc_No:</td><td> %s </td></tr> " % y['Doc_No']
                 # code.append(%y['IP Address(Private)'])
                 code.append(a)
@@ -67,7 +71,11 @@ class PoemPageHandler(tornado.web.RequestHandler):
                 code.append(c)
                 c = "<tr><td>Exp Type:</td><td> %s</td></tr>" % y['Exp Type']
                 code.append(c)
-
+                #pr = int(y['Price (HKD) to be paid in 2022']*100)/100
+                suma = suma + y['Price (HKD) to be paid in 2022']
+                #dallor = "${:0,.2f}".format(y['Price (HKD) to be paid in 2022'])
+                d = "<tr><td>Price (HKD) to be paid in 2022:</td><td> %s </td></tr>" %"${:0,.2f}".format(y['Price (HKD) to be paid in 2022'])
+                code.append(d)
                 d = "<tr><td>Priority:</td><td> %s </td></tr>" % y['Priority']
                 code.append(d)
                 d = "<tr><td>Remark:</td><td> %s </td></tr>" % y['Remark']
@@ -76,6 +84,13 @@ class PoemPageHandler(tornado.web.RequestHandler):
                 code.append(d)
                 print(code)
                 print(cnt)
+
+            #suma = int(suma*100)/100
+            #dallor = "${:0,.2f}".format(suma)
+            d = "<tr><td>Count:</td><td> %s </td></tr>" %cnt
+            code.append(d)
+            d = "<tr><td>Sub-Total</td><td>%s</td></tr>"%"${:0,.2f}".format(suma)
+            code.append(d)
 
             contents = '''<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
             <html>
